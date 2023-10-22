@@ -4,6 +4,8 @@ import socket
 from urllib.parse import urlparse
 import whois
 import builtwith
+import nmap
+import threading
 #Funcion que busca que la url coincida con la expresión regular
 def errorfromurl(a):
     #Esta expresión regular fue sacada de internet, dejo referencias al final
@@ -48,10 +50,21 @@ def info_built(a):
         archivo.close()
     except:
         pass
+def scan_port(a,ip):
+    scanner = nmap.PortScanner()
+    try:
+        b = a.split("-")
+        for i in range (int(b[0]),int(b[1])+1,1):
+            response = scanner.scan(ip,str(i))
+            print(response)
+    except:
+        pass
+    return
 if (__name__ == '__main__'):
     #Definición de argumentos de ArgsParse(En proceso)
     parser = argparse.ArgumentParser(prog="Programa con enfoque en la ciberseguridad",description="Programa con enfoque en ciberseguridad:\n-Webscraping\n-Escaneo\n-Buildwith",epilog="Fines educativos")
     parser.add_argument("-w","--webpage",type=str,required=True,help="Utiliza dominios e páginas webs\nEjemplo: -w https://www.google.com/ \n Nota: Debe incluir el prefijo https o http")
+    parser.add_argument("-Rp","--Rangeports",type=str,required=False,help="Escanea un rango de puertos de la Ip en especifico\nSe utiliza de la siguiente forma -Rp 0-55",default="0-500")
     args = parser.parse_args()
     url = errorfromurl(args.webpage)
     ip = ipbyhostname(url)
