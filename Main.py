@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 import whois
 import builtwith
 import nmap
-import threading
+import pandas as pd
 #Funcion que busca que la url coincida con la expresión regular
 def errorfromurl(a):
     #Esta expresión regular fue sacada de internet, dejo referencias al final
@@ -52,8 +52,59 @@ def info_built(a):
         pass
 def scan_port(a,ip):
     scanner = nmap.PortScanner()
+    horas = list()
+    hostname = list()
+    estado1 = list()
+    estado2 = list()
+    nombre = list()
     try:
-        scanner.scan(ip,a)
+        b = a.split("-")
+        for i in range(int(b[0]),int(b[1])+1,1):
+            
+            try:
+                res = scanner.scan(ip,str(i),arguments="--host-timeout 30s")
+                hora = res["nmap"]["scanstats"]["timestr"]
+                if hora is None:
+                    horas.append(" ")
+                else:
+                    horas.append(hora)
+                host = res["nmap"]["scanstats"]["timestr"]
+                if host is None:
+                    hostname.append(" ")
+                else:
+                    hostname.append(host)
+                estados1 = res["scan"][ip]["status"]["state"]
+                if estados1 is None:
+                    estado1.append(" ")
+                else:
+                    estado1.append(estados1)
+                estados2 = res["scan"][ip]["tcp"][i]["state"]
+                if estados2 is None:
+                    estado2.append(" ")
+                else:
+                    estado2.append(estados2)
+                nombres = res['scan'][ip]['tcp'][i]['name']
+                if nombres is None:
+                    nombre.append(" ")
+                else:
+                    nombre.append(nombres)
+                #horas = horas.append(res["nmap"]["scanstats"]["timestr"])
+                #hostname = hostname.append(res["scan"][ip]["hostnames"][0]["name"])
+                #estado1 = estado1.append(res["scan"][ip]["status"]["state"])
+                #estado2 = estado2.append(res["scan"][ip]["tcp"][i]["state"])
+                #nombre = nombre.append(res['scan'][ip]['tcp'][i]['name'])
+            except Exception as e:
+                print(e)
+                continue
+        data = {
+            "Hora":horas,
+            "Hostname":hostname,
+            "Estatus":estado1,
+            "Estado":estado2,
+            "Nombre":nombre
+            }
+        df = pd.DataFrame(data)
+        df.to_csv("ports.csv",index=False)
     except:
         pass
     return
@@ -67,9 +118,7 @@ if (__name__ == '__main__'):
     ip = ipbyhostname(url)
     domain_whois(ip,url)
     info_built(url)
-    hilo1 = threading.Thread(target=scan_port,args=(args.Rangeports,ip))
-    hilo1.start()
-    hilo1.join()
+    scan_port(args.Rangeports,ip)
     
 
 
