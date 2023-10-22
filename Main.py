@@ -53,10 +53,7 @@ def info_built(a):
 def scan_port(a,ip):
     scanner = nmap.PortScanner()
     try:
-        b = a.split("-")
-        for i in range (int(b[0]),int(b[1])+1,1):
-            response = scanner.scan(ip,str(i))
-            print(response)
+        scanner.scan(ip,a)
     except:
         pass
     return
@@ -70,7 +67,9 @@ if (__name__ == '__main__'):
     ip = ipbyhostname(url)
     domain_whois(ip,url)
     info_built(url)
-    
+    hilo1 = threading.Thread(target=scan_port,args=(args.Rangeports,ip))
+    hilo1.start()
+    hilo1.join()
     
 
 
