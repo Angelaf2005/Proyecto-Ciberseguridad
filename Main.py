@@ -57,6 +57,7 @@ def scan_port(a,ip):
     estado1 = list()
     estado2 = list()
     nombre = list()
+    puertos = list()
     try:
         b = a.split("-")
         for i in range(int(b[0]),int(b[1])+1,1):
@@ -64,11 +65,12 @@ def scan_port(a,ip):
             try:
                 res = scanner.scan(ip,str(i),arguments="--host-timeout 30s")
                 hora = res["nmap"]["scanstats"]["timestr"]
+                puertos.append(i)
                 if hora is None:
                     horas.append(" ")
                 else:
                     horas.append(hora)
-                host = res["nmap"]["scanstats"]["timestr"]
+                host = res['scan'][ip]['hostnames'][0]['name']
                 if host is None:
                     hostname.append(" ")
                 else:
@@ -97,6 +99,7 @@ def scan_port(a,ip):
                 print(e)
                 continue
         data = {
+            "Puertos":puertos,
             "Hora":horas,
             "Hostname":hostname,
             "Estatus":estado1,
