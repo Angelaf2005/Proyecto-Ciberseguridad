@@ -12,7 +12,7 @@ def errorfromurl(a):
     regex = r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
     urls = re.findall(regex, a)
     if (len(urls) == 0):
-        print("El formato no es el adecuado\nRevise la documentación con \"--help\"")
+        exit()
     return(urls[0])
 #Encuentra la ip de una página web solamente con el hostname
 def ipbyhostname(a):
@@ -20,7 +20,6 @@ def ipbyhostname(a):
         url = urlparse(a)
         ip = socket.gethostbyname(url.hostname)
     except:
-        print("El hostname ingresado no es válido\nRevise la documentación con \"--help\"")
         exit()
     return ip
 
@@ -96,7 +95,6 @@ def scan_port(a,ip):
                 #estado2 = estado2.append(res["scan"][ip]["tcp"][i]["state"])
                 #nombre = nombre.append(res['scan'][ip]['tcp'][i]['name'])
             except Exception as e:
-                print(e)
                 continue
         data = {
             "Puertos":puertos,
