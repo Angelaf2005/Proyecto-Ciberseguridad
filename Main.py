@@ -6,6 +6,7 @@ import whois
 import builtwith
 import nmap
 import pandas as pd
+import Scan_ports
 #Funcion que busca que la url coincida con la expresión regular
 def errorfromurl(a):
     #Esta expresión regular fue sacada de internet, dejo referencias al final
@@ -114,12 +115,16 @@ if (__name__ == '__main__'):
     parser = argparse.ArgumentParser(prog="Programa con enfoque en la ciberseguridad",description="Programa con enfoque en ciberseguridad:\n-Webscraping\n-Escaneo\n-Buildwith",epilog="Fines educativos")
     parser.add_argument("-w","--webpage",type=str,required=True,help="Utiliza dominios e páginas webs\nEjemplo: -w https://www.google.com/ \n Nota: Debe incluir el prefijo https o http")
     parser.add_argument("-Rp","--Rangeports",type=str,required=False,help="Escanea un rango de puertos de la Ip en especifico\nSe utiliza de la siguiente forma -Rp 0-55",default="0-500")
+    parser.add_argument("-Ts","--typescan",type=int,required=False,help="Determina el tipo de escaneo\n1)Nmap\n2)Escaneo Rapido\nNota:Nmap es más preciso y recibe más información solamente se recomienda escaneo rápido en una gran cantidad de puertos",default=1)
     args = parser.parse_args()
     url = errorfromurl(args.webpage)
     ip = ipbyhostname(url)
     domain_whois(ip,url)
     info_built(url)
-    scan_port(args.Rangeports,ip)
+    if (args.typescan == 1):
+        scan_port(args.Rangeports,ip)
+    else:
+        Scan_ports.ports(args.Rangeports,ip)
     
 
 
@@ -129,7 +134,7 @@ if (__name__ == '__main__'):
 """Referencias
 https://stackoverflow.com/questions/6718633/python-regular-expression-again-match-url
 """
-#Realizado en Github por: Angelaf2005
+#Realizado en Github por: Angelaf2005, AleZarateSan
 """Notas sobre Nmap:
 Muy probablemente no funcione desde tu computador
 para que lo haga tienes que realizar 2 cosas:
