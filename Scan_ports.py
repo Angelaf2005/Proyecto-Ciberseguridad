@@ -22,7 +22,6 @@ def ports(a,ip):
         for port in Ports:
             hilo = threading.Thread(target=Scan_hilos,args=(IP,port,puertos,estado))
             hilo.start()
-        print(puertos,estado)
         data = {
             "Puertos":puertos,
             "Estado":estado

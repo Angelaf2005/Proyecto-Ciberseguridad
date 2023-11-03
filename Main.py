@@ -126,7 +126,7 @@ if (__name__ == '__main__'):
         scan_port(args.Rangeports,ip)
     else:
         Scan_ports.ports(args.Rangeports,ip)
-    traceroute.traceroute(ip)
+    traceroute.trace(ip)
 
 
 
