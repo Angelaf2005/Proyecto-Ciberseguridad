@@ -7,6 +7,7 @@ import builtwith
 import nmap
 import pandas as pd
 import Scan_ports
+import traceroute
 #Funcion que busca que la url coincida con la expresión regular
 def errorfromurl(a):
     #Esta expresión regular fue sacada de internet, dejo referencias al final
@@ -125,7 +126,7 @@ if (__name__ == '__main__'):
         scan_port(args.Rangeports,ip)
     else:
         Scan_ports.ports(args.Rangeports,ip)
-    
+    traceroute.traceroute(ip)
 
 
 
