@@ -11,4 +11,4 @@ def trace(ip):
     archivo.write(sys.stdout.getvalue())
     archivo.close()
     sys.stdout.close()
-    a.graph(target="traceroute.svg")
+    a.graph(target="./archivos/traceroute.svg")
