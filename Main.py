@@ -126,9 +126,18 @@ if (__name__ == '__main__'):
         scan_port(args.Rangeports,ip)
     else:
         Scan_ports.ports(args.Rangeports,ip)
-    traceroute.trace(ip)
-
-
+    try:
+        traceroute.traceICMP(ip)
+    except:
+        pass
+    try:
+        traceroute.traceTCP(ip)
+    except:
+        pass
+    try:
+        traceroute.traceUDP(ip)
+    except:
+        pass
 
 
 
