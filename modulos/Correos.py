@@ -13,7 +13,7 @@ def obtener_correos_y_numeros(dom):
 
         # Expresión regular para encontrar números de teléfono (varios formatos)
         numeros = re.findall(r'[\(]?[\+]?(\d{2})[\)]?[\s]?((\d{6})|(\d{2}[\*\.\-\s]){4}|(\d{4}[\*\.\-\s]){2})|\d{8}', texto)
-        with open("Reporte.txt", "w") as archivo:
+        with open("./archivos/Reporte.txt", "w") as archivo:
             archivo.write("Correos electrónicos:\n")
             for correo in correos:
                 archivo.write(correo + "\n")

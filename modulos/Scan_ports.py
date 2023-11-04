@@ -27,7 +27,7 @@ def ports(a,ip):
             "Estado":estado
         }
         df = pd.DataFrame(data)
-        df.to_csv("ports.csv",index=False)
+        df.to_csv("./archivos/ports.csv",index=False)
         return
     try:
         if isinstance(a.split("-"),list):

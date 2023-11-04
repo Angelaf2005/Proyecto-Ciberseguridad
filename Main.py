@@ -6,8 +6,8 @@ import whois
 import builtwith
 import nmap
 import pandas as pd
-import Scan_ports
-import traceroute
+from modulos import Scan_ports
+from modulos import traceroute
 #Funcion que busca que la url coincida con la expresión regular
 def errorfromurl(a):
     #Esta expresión regular fue sacada de internet, dejo referencias al final
@@ -28,13 +28,13 @@ def ipbyhostname(a):
 def domain_whois(a,b):
     try:
         web = whois.whois(a)
-        archivo = open("domain_info.txt","w")
+        archivo = open("./archivos/domain_info.txt","w")
         archivo.write(web.text)
         archivo.close()
     except:
         try:
             web = whois.whois(b)
-            archivo = open("domain_info.txt","w")
+            archivo = open("./archivos/domain_info.txt","w")
             archivo.write(web.text)
             archivo.close()
         except:
@@ -42,7 +42,7 @@ def domain_whois(a,b):
 def info_built(a):
     try: 
         info = builtwith.parse(a)
-        archivo = open("Builwith.txt","w")
+        archivo = open("./archivos/Builwith.txt","w")
         for x,y in info.items():
             archivo.write(x)
             for i in y:
