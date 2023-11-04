@@ -6,6 +6,7 @@ import whois
 import builtwith
 import nmap
 import pandas as pd
+import logging
 from modulos import Scan_ports
 from modulos import traceroute
 #Funcion que busca que la url coincida con la expresión regular
@@ -112,11 +113,15 @@ def scan_port(a,ip):
         pass
     return
 if (__name__ == '__main__'):
+    logging.basicConfig(filename='app.log', level=logging.INFO)
     #Definición de argumentos de ArgsParse(En proceso)
-    parser = argparse.ArgumentParser(prog="Programa con enfoque en la ciberseguridad",description="Programa con enfoque en ciberseguridad:\n-Webscraping\n-Escaneo\n-Buildwith",epilog="Fines educativos")
-    parser.add_argument("-w","--webpage",type=str,required=True,help="Utiliza dominios e páginas webs\nEjemplo: -w https://www.google.com/ \n Nota: Debe incluir el prefijo https o http")
-    parser.add_argument("-Rp","--Rangeports",type=str,required=False,help="Escanea un rango de puertos de la Ip en especifico\nSe utiliza de la siguiente forma -Rp 0-55",default="0-500")
-    parser.add_argument("-Ts","--typescan",type=int,required=False,help="Determina el tipo de escaneo\n1)Nmap\n2)Escaneo Rapido\nNota:Nmap es más preciso y recibe más información solamente se recomienda escaneo rápido en una gran cantidad de puertos",default=1)
+    try:
+        parser = argparse.ArgumentParser(prog="Programa con enfoque en la ciberseguridad",description="Programa con enfoque en ciberseguridad:\n-Webscraping\n-Escaneo\n-Buildwith",epilog="Fines educativos")
+        parser.add_argument("-w","--webpage",type=str,required=True,help="Utiliza dominios e páginas webs\nEjemplo: -w https://www.google.com/ \n Nota: Debe incluir el prefijo https o http")
+        parser.add_argument("-Rp","--Rangeports",type=str,required=False,help="Escanea un rango de puertos de la Ip en especifico\nSe utiliza de la siguiente forma -Rp 0-55",default="0-500")
+        parser.add_argument("-Ts","--typescan",type=int,required=False,help="Determina el tipo de escaneo\n1)Nmap\n2)Escaneo Rapido\nNota:Nmap es más preciso y recibe más información solamente se recomienda escaneo rápido en una gran cantidad de puertos",default=1)
+    except:
+        logging.error('Errores en el código en la parte de argparse')
     args = parser.parse_args()
     url = errorfromurl(args.webpage)
     ip = ipbyhostname(url)
@@ -128,16 +133,16 @@ if (__name__ == '__main__'):
         Scan_ports.ports(args.Rangeports,ip)
     try:
         traceroute.traceICMP(ip)
-    except:
-        pass
+    except Exception as e:
+        logging.error(e)
     try:
         traceroute.traceTCP(ip)
-    except:
-        pass
+    except Exception as e:
+        logging.error(e)
     try:
         traceroute.traceUDP(ip)
-    except:
-        pass
+    except Exception as e:
+        logging.error(e)
 
 
 
