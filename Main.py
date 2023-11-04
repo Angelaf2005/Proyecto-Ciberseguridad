@@ -9,6 +9,8 @@ import pandas as pd
 import logging
 from modulos import Scan_ports
 from modulos import traceroute
+from modulos import Api_links
+from modulos import Links
 #Funcion que busca que la url coincida con la expresión regular
 def errorfromurl(a):
     #Esta expresión regular fue sacada de internet, dejo referencias al final
@@ -122,6 +124,7 @@ if (__name__ == '__main__'):
         parser.add_argument("-Ts","--typescan",type=int,required=False,help="Determina el tipo de escaneo\n1)Nmap\n2)Escaneo Rapido\nNota:Nmap es más preciso y recibe más información solamente se recomienda escaneo rápido en una gran cantidad de puertos",default=1)
     except:
         logging.error('Errores en el código en la parte de argparse')
+        pass
     args = parser.parse_args()
     url = errorfromurl(args.webpage)
     ip = ipbyhostname(url)
@@ -135,12 +138,19 @@ if (__name__ == '__main__'):
         traceroute.traceICMP(ip)
     except Exception as e:
         logging.error(e)
+        pass
     try:
         traceroute.traceTCP(ip)
     except Exception as e:
         logging.error(e)
+        pass
     try:
         traceroute.traceUDP(ip)
+    except Exception as e:
+        logging.error(e)
+        pass
+    try:
+        Links.links(url)
     except Exception as e:
         logging.error(e)
 

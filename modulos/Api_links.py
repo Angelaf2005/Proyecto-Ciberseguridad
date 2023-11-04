@@ -4,7 +4,7 @@ import openpyxl
 import shodan
 
 
-with open('shodan_api_key.txt', 'r') as archivo_api:
+with open('./API_KEY/shodan_api_key.txt', 'r') as archivo_api:
     clave_api_shodan = archivo_api.read().strip()
 
 
