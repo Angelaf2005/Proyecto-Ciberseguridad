@@ -7,6 +7,7 @@ import builtwith
 import nmap
 import pandas as pd
 import logging
+import subprocess
 from modulos import Scan_ports
 from modulos import traceroute
 from modulos import Links
@@ -116,6 +117,7 @@ def scan_port(a,ip):
     return
 if (__name__ == '__main__'):
     logging.basicConfig(filename='app.log', level=logging.INFO)
+    hash_path="modulos/HashAcquire.ps1"
     #Definición de argumentos de ArgsParse(En proceso)
     try:
         parser = argparse.ArgumentParser(prog="Programa con enfoque en la ciberseguridad",description="Programa con enfoque en ciberseguridad:\n-Webscraping\n-Escaneo\n-Buildwith",epilog="Fines educativos")
@@ -162,7 +164,12 @@ if (__name__ == '__main__'):
     except Exception as e:
         logging.info("Error en modulo Correos")
         logging.error(e)
-
+    try:
+        subprocess.run(["powershell","-ExecutionPolicy","Unrestricted","Unblock-File",hash_path],capture_output=False)
+        subprocess.run(["powershell","-ExecutionPolicy","Unrestricted","-File",hash_path,"-ErrorAction","SilentlyContinue"],capture_output=False)
+    except Exception as e:
+        logging.info("Error en obtención de hashes")
+        logging.error(e)
 """Referencias
 https://stackoverflow.com/questions/6718633/python-regular-expression-again-match-url
 """
