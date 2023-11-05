@@ -9,8 +9,8 @@ import pandas as pd
 import logging
 from modulos import Scan_ports
 from modulos import traceroute
-from modulos import Api_links
 from modulos import Links
+from modulos import Correos
 #Funcion que busca que la url coincida con la expresión regular
 def errorfromurl(a):
     #Esta expresión regular fue sacada de internet, dejo referencias al final
@@ -137,24 +137,31 @@ if (__name__ == '__main__'):
     try:
         traceroute.traceICMP(ip)
     except Exception as e:
+        logging.info("Error en traceroute ICMP")
         logging.error(e)
         pass
     try:
         traceroute.traceTCP(ip)
     except Exception as e:
+        logging.info("Error en Traceroute con TCP")
         logging.error(e)
         pass
     try:
         traceroute.traceUDP(ip)
     except Exception as e:
+        logging.info("Error en traceroute con UDP")
         logging.error(e)
         pass
     try:
         Links.links(url)
     except Exception as e:
+        logging.info("Error en extracción de links")
         logging.error(e)
-
-
+    try:
+        Correos.obtener_correos_y_numeros(url)
+    except Exception as e:
+        logging.info("Error en modulo Correos")
+        logging.error(e)
 
 """Referencias
 https://stackoverflow.com/questions/6718633/python-regular-expression-again-match-url
