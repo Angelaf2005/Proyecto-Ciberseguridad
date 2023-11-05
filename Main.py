@@ -117,7 +117,8 @@ def scan_port(a,ip):
     return
 if (__name__ == '__main__'):
     logging.basicConfig(filename='app.log', level=logging.INFO)
-    hash_path="modulos/HashAcquire.ps1"
+    #Nota: si cambias el lugar donde está el archivo para hashear es importante actualizar la ruta
+    hash_path="modulos/HasheoSHA512.ps1"
     #Definición de argumentos de ArgsParse(En proceso)
     try:
         parser = argparse.ArgumentParser(prog="Programa con enfoque en la ciberseguridad",description="Programa con enfoque en ciberseguridad:\n-Webscraping\n-Escaneo\n-Buildwith",epilog="Fines educativos")

@@ -1,4 +1,4 @@
-﻿
+﻿#Es necesario agregar las carpetas que se vayan utilizando en este archivo para obtener un buen hasheo de archivos
 param(  
     [array]$TargetFolder=@(".","./__pycache__","./archivos","./API_KEY","./modulos","./.vscode"),
     [string]$ResultFile="hash\baseline.txt"
