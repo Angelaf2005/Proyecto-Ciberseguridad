@@ -24,7 +24,7 @@ def API_hackertarget(ip):
     try:
         r = requests.get("https://api.hackertarget.com/ipgeo/?q="+ip)
         if r.status_code == 200:
-            with open("geolocalization.txt","w") as archivo:
+            with open("./archivos/geolocalization.txt","w") as archivo:
                 archivo.write(r.text)
         with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
                 archivo.write("./archivos/geolocalization.txt")
