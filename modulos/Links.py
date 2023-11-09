@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import openpyxl
 import re
+import zipfile
 def links(url):
     res = requests.get(url)
     soup = BeautifulSoup(res.text, 'lxml')
@@ -24,3 +25,5 @@ def links(url):
 
 
     workbook.save('./archivos/links.xlsx')
+    with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
+            archivo.write("./archivos/links.xlsx")

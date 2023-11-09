@@ -3,6 +3,7 @@ import socket
 import sys
 import threading
 import pandas as pd
+import zipfile
 def ports(a,ip):
     def Scan_hilos(Ip,port,puertos,estado):
         try:
@@ -28,7 +29,9 @@ def ports(a,ip):
         }
         df = pd.DataFrame(data)
         df.to_csv("./archivos/ports.csv",index=False)
-        return
+        with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
+            archivo.write("./archivos/ports.csv")
+        return hilo
     try:
         if isinstance(a.split("-"),list):
             Rangeports = []
@@ -37,6 +40,7 @@ def ports(a,ip):
     except:
         pass
     try:
-        Scan_ports_with_socket(ip,Rangeports)
+        hilo = Scan_ports_with_socket(ip,Rangeports)
+        return hilo
     except:
         pass

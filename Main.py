@@ -8,10 +8,14 @@ import nmap
 import pandas as pd
 import logging
 import subprocess
+import threading
+import zipfile
 from modulos import Scan_ports
 from modulos import traceroute
 from modulos import Links
 from modulos import Correos
+from modulos import powmod
+from modulos import Apis
 #Funcion que busca que la url coincida con la expresión regular
 def errorfromurl(a):
     #Esta expresión regular fue sacada de internet, dejo referencias al final
@@ -25,7 +29,8 @@ def ipbyhostname(a):
     try:
         url = urlparse(a)
         ip = socket.gethostbyname(url.hostname)
-    except:
+    except Exception as e:
+        logging.error(e)
         exit()
     return ip
 
@@ -35,13 +40,19 @@ def domain_whois(a,b):
         archivo = open("./archivos/domain_info.txt","w")
         archivo.write(web.text)
         archivo.close()
-    except:
+        with zipfile.ZipFile("./pass/archivos.zip","w") as archivo:
+            archivo.write("./archivos/domain_info.txt")
+    except Exception as e:
+        logging.error(e)
         try:
             web = whois.whois(b)
             archivo = open("./archivos/domain_info.txt","w")
             archivo.write(web.text)
             archivo.close()
-        except:
+            with zipfile.ZipFile("./pass/archivos.zip","w") as archivo:
+                archivo.write("./archivos/domain_info.txt")
+        except Exception as e:
+            logging.error(e)
             pass
 def info_built(a):
     try: 
@@ -53,6 +64,8 @@ def info_built(a):
                 archivo.write(i)
             archivo.write("\n")    
         archivo.close()
+        with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
+            archivo.write("./archivos/Builwith.txt")
     except:
         pass
 def scan_port(a,ip):
@@ -101,6 +114,7 @@ def scan_port(a,ip):
                 #estado2 = estado2.append(res["scan"][ip]["tcp"][i]["state"])
                 #nombre = nombre.append(res['scan'][ip]['tcp'][i]['name'])
             except Exception as e:
+                logging.eror(e)
                 continue
         data = {
             "Puertos":puertos,
@@ -112,6 +126,8 @@ def scan_port(a,ip):
             }
         df = pd.DataFrame(data)
         df.to_csv("ports.csv",index=False)
+        with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
+            archivo.write("./archivos/ports.csv")
     except:
         pass
     return
@@ -119,24 +135,27 @@ if (__name__ == '__main__'):
     logging.basicConfig(filename='app.log', level=logging.INFO)
     #Nota: si cambias el lugar donde está el archivo para hashear es importante actualizar la ruta
     hash_path="modulos/HasheoSHA512.ps1"
+    mail_path="modulos/gmail.psm1"
     #Definición de argumentos de ArgsParse(En proceso)
     try:
         parser = argparse.ArgumentParser(prog="Programa con enfoque en la ciberseguridad",description="Programa con enfoque en ciberseguridad:\n-Webscraping\n-Escaneo\n-Buildwith",epilog="Fines educativos")
         parser.add_argument("-w","--webpage",type=str,required=True,help="Utiliza dominios e páginas webs\nEjemplo: -w https://www.google.com/ \n Nota: Debe incluir el prefijo https o http")
         parser.add_argument("-Rp","--Rangeports",type=str,required=False,help="Escanea un rango de puertos de la Ip en especifico\nSe utiliza de la siguiente forma -Rp 0-55",default="0-500")
         parser.add_argument("-Ts","--typescan",type=int,required=False,help="Determina el tipo de escaneo\n1)Nmap\n2)Escaneo Rapido\nNota:Nmap es más preciso y recibe más información solamente se recomienda escaneo rápido en una gran cantidad de puertos",default=1)
+        parser.add_argument("-MM","--MailMessage",type=str,required=False,help="Envio de correos para informar sobre el procesoEjemplo de uso: -MM example@example.com")
     except:
         logging.error('Errores en el código en la parte de argparse')
         pass
     args = parser.parse_args()
     url = errorfromurl(args.webpage)
     ip = ipbyhostname(url)
+
     domain_whois(ip,url)
     info_built(url)
     if (args.typescan == 1):
         scan_port(args.Rangeports,ip)
     else:
-        Scan_ports.ports(args.Rangeports,ip)
+        hilo = Scan_ports.ports(args.Rangeports,ip)
     try:
         traceroute.traceICMP(ip)
     except Exception as e:
@@ -168,9 +187,21 @@ if (__name__ == '__main__'):
     try:
         subprocess.run(["powershell","-ExecutionPolicy","Unrestricted","Unblock-File",hash_path],capture_output=False)
         subprocess.run(["powershell","-ExecutionPolicy","Unrestricted","-File",hash_path,"-ErrorAction","SilentlyContinue"],capture_output=False)
+        with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
+            archivo.write("hash/baseline.txt")
     except Exception as e:
         logging.info("Error en obtención de hashes")
         logging.error(e)
+    try:
+        Apis.API_hackertarget(ip)
+    except Exception as e:
+        logging.info("Error en API")
+        logging.error(e)
+    try:
+        powmod.powcor(mail_path,args.MailMessage)
+    except:
+        logging.info("Error en mandar correos")
+        pass
 """Referencias
 https://stackoverflow.com/questions/6718633/python-regular-expression-again-match-url
 """

@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import re
-
+import zipfile
 def obtener_correos_y_numeros(dom):
     response = requests.get(dom)
     if response.status_code == 200:
@@ -17,10 +17,10 @@ def obtener_correos_y_numeros(dom):
             archivo.write("Correos electrónicos:\n")
             for correo in correos:
                 archivo.write(correo + "\n")
-    
             archivo.write("\nNúmeros de teléfono:\n")
             for numero in numeros:
                 # Formatea el número de teléfono antes de escribirlo en el archivo
                 formatted_number = "-".join(numero)
                 archivo.write(formatted_number + "\n")
- 
+    with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
+            archivo.write("./archivos/Reporte.txt")

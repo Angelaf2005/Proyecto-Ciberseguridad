@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 import openpyxl
 import shodan
 import logging
-def API(direccion_ip):
+import zipfile
+def API_Shodan(direccion_ip):
     logging.basicConfig(filename='app.log', level=logging.INFO)
     with open("API_KEY\shodan_api_key.txt", 'r') as archivo_api:
         clave_api_shodan = archivo_api.read().strip()
@@ -19,3 +20,13 @@ def API(direccion_ip):
         sheet_shodan.cell(row=index, column=2, value=f"Org: {result.get('org', 'N/A')}")
         sheet_shodan.cell(row=index, column=3, value=f"OS: {result.get('os', 'N/A')}")
     workbook_shodan.save('archivos/shodan_results.xlsx')
+def API_hackertarget(ip):
+    try:
+        r = requests.get("https://api.hackertarget.com/ipgeo/?q="+ip)
+        if r.status_code == 200:
+            with open("geolocalization.txt","w") as archivo:
+                archivo.write(r.text)
+        with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
+                archivo.write("./archivos/geolocalization.txt")
+    except:
+         pass
