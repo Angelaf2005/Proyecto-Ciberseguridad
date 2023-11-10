@@ -120,7 +120,7 @@ def scan_port(a,ip):
             "Nombre":nombre
             }
         df = pd.DataFrame(data)
-        df.to_csv("ports.csv",index=False)
+        df.to_csv("./archivos/ports.csv",index=False)
         with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
             archivo.write("./archivos/ports.csv")
     except:

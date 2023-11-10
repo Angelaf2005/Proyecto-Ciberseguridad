@@ -4,8 +4,9 @@ param(
     [string]$ResultFile="hash\baseline.txt"
 )
 try {
+    Set-Content $ResultFile $null
     foreach ($i In $TargetFolder){
-        Get-ChildItem $TargetFolder | Get-FileHash -ErrorAction SilentlyContinue -Algorithm SHA512 | Select-Object -Property Hash, Path | Format-Table -HideTableHeaders | Out-File $ResultFile -Encoding ascii
+        Get-ChildItem $TargetFolder | Get-FileHash -ErrorAction SilentlyContinue -Algorithm SHA512 | Select-Object -Property Hash, Path  | Add-Content $ResultFile -Encoding ascii 
     }
 }
 catch {
