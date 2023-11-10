@@ -108,11 +108,6 @@ def scan_port(a,ip):
                     nombre.append(" ")
                 else:
                     nombre.append(nombres)
-                #horas = horas.append(res["nmap"]["scanstats"]["timestr"])
-                #hostname = hostname.append(res["scan"][ip]["hostnames"][0]["name"])
-                #estado1 = estado1.append(res["scan"][ip]["status"]["state"])
-                #estado2 = estado2.append(res["scan"][ip]["tcp"][i]["state"])
-                #nombre = nombre.append(res['scan'][ip]['tcp'][i]['name'])
             except Exception as e:
                 logging.eror(e)
                 continue
@@ -143,6 +138,7 @@ if (__name__ == '__main__'):
         parser.add_argument("-Rp","--Rangeports",type=str,required=False,help="Escanea un rango de puertos de la Ip en especifico\nSe utiliza de la siguiente forma -Rp 0-55",default="0-500")
         parser.add_argument("-Ts","--typescan",type=int,required=False,help="Determina el tipo de escaneo\n1)Nmap\n2)Escaneo Rapido\nNota:Nmap es más preciso y recibe más información solamente se recomienda escaneo rápido en una gran cantidad de puertos",default=1)
         parser.add_argument("-MM","--MailMessage",type=str,required=False,help="Envio de correos para informar sobre el procesoEjemplo de uso: -MM example@example.com")
+        parser.add_argument("-AS","--APIshodan",required=False,help="Uso de API de Shodan, es necesario tener una cuenta y una APIKEY válida introduzca -AS 2 si desea utilizar Shodan",type=int,default=1)
     except:
         logging.error('Errores en el código en la parte de argparse')
         pass
@@ -166,6 +162,12 @@ if (__name__ == '__main__'):
         traceroute.traceTCP(ip)
     except Exception as e:
         logging.info("Error en Traceroute con TCP")
+        logging.error(e)
+        pass
+    try:
+        if (args.APIshodan == 2):
+            Apis.API_Shodan(ip)
+    except Exception as e:
         logging.error(e)
         pass
     try:

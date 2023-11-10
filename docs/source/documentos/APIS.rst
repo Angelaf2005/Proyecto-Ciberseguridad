@@ -1,10 +1,21 @@
-import requests
-from bs4 import BeautifulSoup
-import openpyxl
-import shodan
-import logging
-import zipfile
-def API_Shodan(direccion_ip):
+Uso de API's
+============
+
+Implementamos 2 AP's en especifico entre ellas:
+
+* Shodan
+* Hacker TargetFolder
+  
+Estás 2 APIS son importantes en el proceso de recolección de información.
+
+Shodan
+------
+
+Implementamos el API de shodan para encontrar información vunerable sobre las IP especificadas.
+
+.. code-block:: python
+
+    def API_Shodan(direccion_ip):
     logging.basicConfig(filename='app.log', level=logging.INFO)
     with open("API_KEY\shodan_api_key.txt", 'r') as archivo_api:
         clave_api_shodan = archivo_api.read().strip()
@@ -22,7 +33,17 @@ def API_Shodan(direccion_ip):
     workbook_shodan.save('archivos/shodan_results.xlsx')
     with zipfile.ZipFile("./pass/archivos.zip","a") as archivo:
                 archivo.write("./archivos/shodan_results.xlsx")
-def API_hackertarget(ip):
+
+Utilizando openpyxl y zipfile creamos un registro de la información recolectada
+
+HackerTarget
+------------
+
+La API de Hacker Target nos permite recolectar información sobre la geolocalización de la IP.
+
+.. code-block:: python
+
+    def API_hackertarget(ip):
     try:
         r = requests.get("https://api.hackertarget.com/ipgeo/?q="+ip)
         if r.status_code == 200:
@@ -32,3 +53,6 @@ def API_hackertarget(ip):
                 archivo.write("./archivos/geolocalization.txt")
     except:
          pass
+
+Utilizamos una llamada a la api de hacker target y guardamos toda esta información dentro de un archivo de texto y en un zip que será enviado por correo.
+
