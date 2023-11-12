@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html  lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>Escaneo de puertos</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=9c9b61ad"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=efdbd0b9"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Índice" href="../genindex.html" />
+  <link rel="search" title="Búsqueda" href="../search.html" />
+  <link rel="next" title="Hasheo de Archivos" href="Hasheo%20de%20Archivos.html" />
+  <link rel="prev" title="TraceRoute" href="TraceRoute.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">pagweb</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Búsqueda rápida</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Búsqueda" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#indices-and-tables">indices and tables</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="WebScraping.html" class="reference internal ">Uso de Web Scraping</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="TraceRoute.html" class="reference internal ">TraceRoute</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">Escaneo de puertos</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#nmap" class="reference internal">Nmap</a></li>
+                
+                  <li class="toctree-l2"><a href="#socket" class="reference internal">Socket</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="Hasheo%20de%20Archivos.html" class="reference internal ">Hasheo de Archivos</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="Envio%20de%20Correos.html" class="reference internal ">Envio de correos</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>Escaneo de puertos</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="TraceRoute.html"
+       title="capítulo anterior">← TraceRoute</a>
+  </li>
+  <li class="next">
+    <a href="Hasheo%20de%20Archivos.html"
+       title="próximo capítulo">Hasheo de Archivos →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="escaneo-de-puertos">
+<h1>Escaneo de puertos<a class="headerlink" href="#escaneo-de-puertos" title="Link to this heading">¶</a></h1>
+<p>Dentro de esta herramienta utilizamos 2 tipos de Escaneos:</p>
+<ul class="simple">
+<li><p>Nmap</p></li>
+<li><p>Socket</p></li>
+</ul>
+<p>En breve explicaremos un poco sobre cada uno de ellos.</p>
+<section id="nmap">
+<h2>Nmap<a class="headerlink" href="#nmap" title="Link to this heading">¶</a></h2>
+<p>El escaneo con Nmap se realiza de la siguiente manera:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scanner</span> <span class="o">=</span> <span class="n">nmap</span><span class="o">.</span><span class="n">PortScanner</span><span class="p">()</span>
+<span class="n">horas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">hostname</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">estado1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">estado2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">nombre</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">puertos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">arguments</span><span class="o">=</span><span class="s2">&quot;--host-timeout 30s&quot;</span><span class="p">)</span>
+            <span class="n">hora</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;nmap&quot;</span><span class="p">][</span><span class="s2">&quot;scanstats&quot;</span><span class="p">][</span><span class="s2">&quot;timestr&quot;</span><span class="p">]</span>
+            <span class="n">puertos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">hora</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">horas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">horas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hora</span><span class="p">)</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;scan&#39;</span><span class="p">][</span><span class="n">ip</span><span class="p">][</span><span class="s1">&#39;hostnames&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">host</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">hostname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">hostname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+            <span class="n">estados1</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;scan&quot;</span><span class="p">][</span><span class="n">ip</span><span class="p">][</span><span class="s2">&quot;status&quot;</span><span class="p">][</span><span class="s2">&quot;state&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">estados1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">estado1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">estado1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">estados1</span><span class="p">)</span>
+            <span class="n">estados2</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;scan&quot;</span><span class="p">][</span><span class="n">ip</span><span class="p">][</span><span class="s2">&quot;tcp&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;state&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">estados2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">estado2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">estado2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">estados2</span><span class="p">)</span>
+            <span class="n">nombres</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;scan&#39;</span><span class="p">][</span><span class="n">ip</span><span class="p">][</span><span class="s1">&#39;tcp&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">nombres</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">nombre</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nombre</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nombres</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">eror</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">continue</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Puertos&quot;</span><span class="p">:</span><span class="n">puertos</span><span class="p">,</span>
+        <span class="s2">&quot;Hora&quot;</span><span class="p">:</span><span class="n">horas</span><span class="p">,</span>
+        <span class="s2">&quot;Hostname&quot;</span><span class="p">:</span><span class="n">hostname</span><span class="p">,</span>
+        <span class="s2">&quot;Estatus&quot;</span><span class="p">:</span><span class="n">estado1</span><span class="p">,</span>
+        <span class="s2">&quot;Estado&quot;</span><span class="p">:</span><span class="n">estado2</span><span class="p">,</span>
+        <span class="s2">&quot;Nombre&quot;</span><span class="p">:</span><span class="n">nombre</span>
+        <span class="p">}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;ports.csv&quot;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s2">&quot;./pass/archivos.zip&quot;</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">archivo</span><span class="p">:</span>
+        <span class="n">archivo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;./archivos/ports.csv&quot;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Este escaneo utiliza nmpa para obtener toda la información de una IP en especifico y a su vez,
+utiliza el modulo de pandas para la creación de un archivo csv que sirve como reporte sobre los puertos.</p>
+<p>Para usar el código anterior se utiliza el parametro <em>-Ts 1</em></p>
+</section>
+<section id="socket">
+<h2>Socket<a class="headerlink" href="#socket" title="Link to this heading">¶</a></h2>
+<p>Esta herramienta también realiza un escaneo de puertos con ayuda del módulo socket. Este tipo
+de escaneo resulta mucho más rápido que Nmap, pero tiene limitación en la información que podemos recibir.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ports</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">ip</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">Scan_hilos</span><span class="p">(</span><span class="n">Ip</span><span class="p">,</span><span class="n">port</span><span class="p">,</span><span class="n">puertos</span><span class="p">,</span><span class="n">estado</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">connect_ex</span><span class="p">((</span><span class="n">Ip</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">puertos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+            <span class="n">estado</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Abierto&quot;</span><span class="p">)</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">puertos</span><span class="p">,</span><span class="n">estado</span>
+<span class="k">def</span> <span class="nf">Scan_ports_with_socket</span><span class="p">(</span><span class="n">IP</span><span class="p">,</span><span class="n">Ports</span><span class="p">):</span>
+    <span class="n">puertos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">estado</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">Ports</span><span class="p">:</span>
+        <span class="n">hilo</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">Scan_hilos</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">IP</span><span class="p">,</span><span class="n">port</span><span class="p">,</span><span class="n">puertos</span><span class="p">,</span><span class="n">estado</span><span class="p">))</span>
+        <span class="n">hilo</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Puertos&quot;</span><span class="p">:</span><span class="n">puertos</span><span class="p">,</span>
+        <span class="s2">&quot;Estado&quot;</span><span class="p">:</span><span class="n">estado</span>
+    <span class="p">}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./archivos/ports.csv&quot;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s2">&quot;./pass/archivos.zip&quot;</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">archivo</span><span class="p">:</span>
+        <span class="n">archivo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;./archivos/ports.csv&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hilo</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">),</span><span class="nb">list</span><span class="p">):</span>
+        <span class="n">Rangeports</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">Rangeports</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">hilo</span> <span class="o">=</span> <span class="n">Scan_ports_with_socket</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span><span class="n">Rangeports</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hilo</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Este escaneo es muy útil para escaneos rápidos de información. PAra utilizarlo en la herramineta se coloca el parametro <em>-Ts 2</em></p>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="TraceRoute.html"
+       title="capítulo anterior">← TraceRoute</a>
+  </li>
+  <li class="next">
+    <a href="Hasheo%20de%20Archivos.html"
+       title="próximo capítulo">Hasheo de Archivos →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, Angel Alvarez, Alejandra Zarate, Angel Hernandez.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>
